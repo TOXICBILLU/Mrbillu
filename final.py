@@ -26,49 +26,35 @@ from rich.prompt import Prompt
 
 console = Console()
 
-# =========================================================
-# MAIN APP CONFIG
-# =========================================================
 APP_NAME = "PRO TOOL"
-APP_VERSION = "1.0.3"
+APP_VERSION = "3.0"
 
-GITHUB_USER = "TOXICBILLU"
-GITHUB_REPO = "Mrbillu"
-GITHUB_BRANCH = "main"
+REPO_URL = "https://github.com/TOXICBILLU/Tools.git"
 
-REMOTE_VERSION_URL = f"https://raw.githubusercontent.com/{GITHUB_USER}/{GITHUB_REPO}/{GITHUB_BRANCH}/Version.txt"
-REMOTE_MAIN_URL = f"https://raw.githubusercontent.com/{GITHUB_USER}/{GITHUB_REPO}/{GITHUB_BRANCH}/final.py"
-
-LOCAL_FILE = os.path.abspath(__file__)
-
-# =========================================================
-# TIKTOK DOWNLOADER CONFIG
-# =========================================================
 TT_APP_NAME = "TIKTOK DOWNLOADER"
-TT_VERSION = "1.0 STABLE"
+TT_VERSION = "7.0 STABLE"
 DOWNLOAD_FOLDER = "/sdcard/Download"
 API_URL = "https://tikwm.com/api/"
 
-# Static colors
 C_BORDER = "bright_cyan"
-C_TITLE = "bold bright_green"
-C_TEXT = "white"
 C_INFO = "bold bright_cyan"
 C_WARN = "bold bright_yellow"
 C_ERR = "bold bright_red"
-C_OK = "bold bright_green"
-C_MENU = "bold bright_magenta"
 
 
-# =========================================================
-# BASIC HELPERS
-# =========================================================
 def clear():
     os.system("cls" if os.name == "nt" else "clear")
 
 
 def pause(msg="\nPress Enter to continue..."):
     input(msg)
+
+
+def slow_print(text, style=C_INFO, delay=0.01, end="\n"):
+    for ch in text:
+        console.print(ch, style=style, end="")
+        time.sleep(delay)
+    console.print(end=end)
 
 
 def loading_screen(msg, speed=0.02):
@@ -87,16 +73,6 @@ def loading_screen(msg, speed=0.02):
             time.sleep(speed)
 
 
-def slow_print(text, style=C_INFO, delay=0.01, end="\n"):
-    for ch in text:
-        console.print(ch, style=style, end="")
-        time.sleep(delay)
-    console.print(end=end)
-
-
-# =========================================================
-# USER NETWORK INFO
-# =========================================================
 def get_user_info():
     urls = [
         "https://ipwho.is/",
@@ -134,7 +110,6 @@ def get_user_info():
                     "region": data.get("regionName", "Unknown"),
                     "country": data.get("country", "Unknown"),
                 }
-
         except Exception:
             continue
 
@@ -146,9 +121,6 @@ def get_user_info():
     }
 
 
-# =========================================================
-# MAIN BANNER / UI
-# =========================================================
 def get_banner():
     banner_art = f"""
 ██████╗ ██████╗  ██████╗     ████████╗ ██████╗  ██████╗ ██╗
@@ -158,7 +130,7 @@ def get_banner():
 ██║     ██║  ██║╚██████╔╝       ██║   ╚██████╔╝╚██████╔╝███████╗
 ╚═╝     ╚═╝  ╚═╝ ╚═════╝        ╚═╝    ╚═════╝  ╚═════╝ ╚══════╝
 
-{APP_NAME}  |  VERSION: {APP_VERSION}
+{APP_NAME} | VERSION: {APP_VERSION}
 """
     return Panel(Align.center(Text(banner_art, style="bold red")), border_style="bright_blue")
 
@@ -170,13 +142,13 @@ def splash():
         Panel(
             Align.center(
                 "[bold bright_green]WELCOME TO PRO TOOL[/bold bright_green]\n"
-                "[bright_cyan]Optimized UI • GitHub Update • Multi Tool System[/bright_cyan]"
+                "[bright_cyan]Real Git Updater • Multi Tool System[/bright_cyan]"
             ),
             border_style="bright_magenta",
             title="[bold yellow]BOOT[/bold yellow]",
         )
     )
-    time.sleep(1.8)
+    time.sleep(1.5)
 
 
 def draw_main_screen():
@@ -202,9 +174,9 @@ def draw_main_screen():
 
     table.add_row("1", "🚀 SYSTEM SCANNER", "[green]READY[/green]")
     table.add_row("2", "👤 DEVELOPER INFO", "[blue]INFO[/blue]")
-    table.add_row("3", "🔄 CHECK UPDATE", "[yellow]UPDATE[/yellow]")
+    table.add_row("3", "🔄 REAL UPDATE", "[yellow]GIT[/yellow]")
     table.add_row("4", "🎬 TIKTOK DOWNLOADER", "[cyan]ACTIVE[/cyan]")
-    table.add_row("5", "😈 DH HACK MODE", "[magenta]FUN[/magenta]")
+    table.add_row("5", "😈 FUNNY HACK MODE", "[magenta]FUN[/magenta]")
     table.add_row("0", "❌ EXIT", "[red]OFF[/red]")
 
     console.print(get_banner())
@@ -213,108 +185,6 @@ def draw_main_screen():
     console.print(Align.center(f"[dim]Last Sync: {datetime.now().strftime('%H:%M:%S')}"))
 
 
-# =========================================================
-# UPDATE SYSTEM
-# =========================================================
-def fetch_remote_version():
-    r = requests.get(REMOTE_VERSION_URL, headers={"User-Agent": "Mozilla/5.0"}, timeout=10)
-    r.raise_for_status()
-    return r.text.strip()
-
-
-def fetch_remote_code():
-    r = requests.get(REMOTE_MAIN_URL, headers={"User-Agent": "Mozilla/5.0"}, timeout=15)
-    r.raise_for_status()
-    return r.text
-
-
-def backup_current_file():
-    backup_file = LOCAL_FILE + ".bak"
-    with open(LOCAL_FILE, "r", encoding="utf-8") as src:
-        with open(backup_file, "w", encoding="utf-8") as dst:
-            dst.write(src.read())
-
-
-def restore_backup():
-    backup_file = LOCAL_FILE + ".bak"
-    if os.path.exists(backup_file):
-        with open(backup_file, "r", encoding="utf-8") as src:
-            with open(LOCAL_FILE, "w", encoding="utf-8") as dst:
-                dst.write(src.read())
-
-
-def install_update(new_code):
-    with open(LOCAL_FILE, "w", encoding="utf-8") as f:
-        f.write(new_code)
-
-
-def check_for_updates(show_no_update=True):
-    try:
-        loading_screen("Checking remote version", 0.02)
-        remote_version = fetch_remote_version()
-
-        if remote_version == APP_VERSION:
-            if show_no_update:
-                clear()
-                console.print(get_banner())
-                console.print(f"[bold green]✔ Already latest version: {APP_VERSION}[/bold green]")
-            return False, remote_version
-
-        clear()
-        console.print(get_banner())
-        console.print(f"[bold yellow]Update available:[/bold yellow] {APP_VERSION} → {remote_version}")
-        return True, remote_version
-
-    except Exception as e:
-        clear()
-        console.print(get_banner())
-        console.print(f"[bold red]Update check failed:[/bold red] {e}")
-        return False, None
-
-
-def update_app():
-    try:
-        has_update, remote_version = check_for_updates(show_no_update=False)
-
-        if not has_update:
-            return
-
-        confirm = Prompt.ask("[bold cyan]Do update now?[/bold cyan]", choices=["y", "n"], default="y")
-        if confirm != "y":
-            return
-
-        loading_screen("Downloading new build", 0.01)
-        new_code = fetch_remote_code()
-
-        if "APP_VERSION" not in new_code or "def update_app()" not in new_code:
-            clear()
-            console.print(get_banner())
-            console.print("[bold red]Downloaded file looks invalid. Update canceled.[/bold red]")
-            return
-
-        backup_current_file()
-        install_update(new_code)
-
-        clear()
-        console.print(get_banner())
-        console.print(f"[bold green]✔ Updated successfully to {remote_version}[/bold green]")
-        console.print("[bold yellow]Restart the app now to use new features.[/bold yellow]")
-
-    except Exception as e:
-        clear()
-        console.print(get_banner())
-        console.print(f"[bold red]Update failed:[/bold red] {e}")
-        console.print("[yellow]Trying to restore previous version...[/yellow]")
-        try:
-            restore_backup()
-            console.print("[bold green]Previous version restored.[/bold green]")
-        except Exception as restore_error:
-            console.print(f"[bold red]Restore failed:[/bold red] {restore_error}")
-
-
-# =========================================================
-# LOGIN
-# =========================================================
 def login_ui():
     while True:
         clear()
@@ -325,7 +195,7 @@ def login_ui():
         pw = Prompt.ask("[bold white]🔑 PASS[/bold white]", password=True)
 
         if user == "admin" and pw == "123":
-            loading_screen("Authenticating..")
+            loading_screen("Authenticating")
             clear()
             console.print(get_banner())
             console.print("\n[bold reverse green]  ACCESS GRANTED  [/bold reverse green]")
@@ -336,12 +206,8 @@ def login_ui():
             time.sleep(1.5)
 
 
-# =========================================================
-# SCANNER / ABOUT
-# =========================================================
 def system_scanner():
-    loading_screen("Scanning local system..")
-
+    loading_screen("Scanning local system")
     user_data = get_user_info()
 
     clear()
@@ -362,7 +228,6 @@ def system_scanner():
 def developer_info():
     clear()
     console.print(get_banner())
-
     about = """
 [bold red]NAME      :[/bold red] PRO TOOL
 [bold red]DEV       :[/bold red] TOXIC BILLU
@@ -373,9 +238,73 @@ def developer_info():
     pause()
 
 
-# =========================================================
-# FUNNY HACK MODE (FAKE / SAFE)
-# =========================================================
+def git_update():
+    clear()
+    console.print(get_banner())
+
+    repo_dir = os.path.dirname(os.path.abspath(__file__))
+    git_dir = os.path.join(repo_dir, ".git")
+
+    if not shutil.which("git"):
+        console.print("[bold red]Git is not installed.[/bold red]")
+        console.print("[bold yellow]Run:[/bold yellow] pkg install git -y")
+        return
+
+    if not os.path.exists(git_dir):
+        console.print("[bold red]This file is not running inside a git-cloned repo.[/bold red]")
+        console.print("[bold yellow]Use these commands:[/bold yellow]")
+        console.print(f"git clone {REPO_URL}")
+        console.print("cd Tools")
+        console.print("python tools.py")
+        return
+
+    console.print("[bold cyan]Checking GitHub repository updates...[/bold cyan]")
+
+    try:
+        fetch = subprocess.run(
+            ["git", "fetch", "origin"],
+            cwd=repo_dir,
+            capture_output=True,
+            text=True
+        )
+
+        if fetch.returncode != 0:
+            console.print(f"[bold red]Fetch failed:[/bold red]\n{fetch.stderr}")
+            return
+
+        result = subprocess.run(
+            ["git", "pull", "origin", "main"],
+            cwd=repo_dir,
+            capture_output=True,
+            text=True
+        )
+
+        clear()
+        console.print(get_banner())
+
+        if result.returncode != 0:
+            console.print(f"[bold red]Update failed:[/bold red]\n{result.stderr}")
+            return
+
+        output = (result.stdout or "").strip()
+
+        if (
+            "Already up to date" in output
+            or "Already up-to-date" in output
+            or "Already up-to-date." in output
+        ):
+            console.print("[bold green]✔ Already latest version.[/bold green]")
+        else:
+            console.print("[bold green]✔ Update completed successfully.[/bold green]")
+            console.print("[bold yellow]Restart the tool now to use new features.[/bold yellow]")
+            console.print(Panel(output if output else "Git pull completed.", border_style="green", title="GIT OUTPUT"))
+
+    except Exception as e:
+        clear()
+        console.print(get_banner())
+        console.print(f"[bold red]Update error:[/bold red] {e}")
+
+
 def fake_matrix_line():
     chars = "01ABCDEF#$%@*&"
     return "".join(random.choice(chars) for _ in range(58))
@@ -420,7 +349,7 @@ def funny_hack_mode():
     loading_screen("Finalizing ultra secret operation", 0.015)
 
     results = [
-        "WiFi password found: [bold yellow]password123[/bold yellow]  😹",
+        "WiFi password found: [bold yellow]password123[/bold yellow] 😹",
         "NASA mainframe replaced with [bold green]RickRoll.mp4[/bold green]",
         "Root access granted to [bold cyan]Tea-Stall Server[/bold cyan]",
         "Classified file unlocked: [bold magenta]homework_final_final2.pdf[/bold magenta]",
@@ -443,9 +372,6 @@ def funny_hack_mode():
     pause()
 
 
-# =========================================================
-# TIKTOK DOWNLOADER SECTION
-# =========================================================
 def tt_banner():
     clear()
     logo = Text(r"""
@@ -463,8 +389,7 @@ def tt_banner():
             Align.center(
                 "[bold bright_green]HD[/bold bright_green] • "
                 "[bold bright_cyan]Stable[/bold bright_cyan] • "
-                "[bold bright_magenta]No Any Issues[/bold bright_magenta] • "
-                "[bold bright_yellow]Better Video Compatibility[/bold bright_yellow]"
+                "[bold bright_magenta]Better Compatibility[/bold bright_magenta]"
             ),
             border_style=C_BORDER,
             title="[bold bright_yellow]TIKTOK PANEL[/bold bright_yellow]",
@@ -535,7 +460,6 @@ def show_video_info(title: str, quality: str):
     )
     table.add_column("Field", style="bold bright_green", justify="center")
     table.add_column("Value", style="bold bright_yellow")
-
     table.add_row("[bright_cyan]Title[/bright_cyan]", f"[white]{title}[/white]")
     table.add_row("[bright_magenta]Quality[/bright_magenta]", f"[bright_green]{quality}[/bright_green]")
     console.print(table)
@@ -597,12 +521,10 @@ def download_stream(url: str, filepath: str):
 def ffprobe_ok(path: str) -> bool:
     if not shutil.which("ffprobe"):
         return os.path.exists(path) and os.path.getsize(path) > 1024
-
     try:
         out = subprocess.check_output(
             [
-                "ffprobe",
-                "-v", "error",
+                "ffprobe", "-v", "error",
                 "-select_streams", "v:0",
                 "-show_entries", "stream=codec_name,width,height",
                 "-of", "default=noprint_wrappers=1:nokey=1",
@@ -618,12 +540,10 @@ def ffprobe_ok(path: str) -> bool:
 def ffprobe_resolution(path: str) -> str:
     if not shutil.which("ffprobe"):
         return ""
-
     try:
         out = subprocess.check_output(
             [
-                "ffprobe",
-                "-v", "error",
+                "ffprobe", "-v", "error",
                 "-select_streams", "v:0",
                 "-show_entries", "stream=width,height",
                 "-of", "csv=p=0:s=x",
@@ -641,12 +561,10 @@ def optimize_with_ffmpeg(src_path: str) -> str:
         return src_path
 
     tmp_out = src_path + ".fixed.mp4"
-
     try:
         subprocess.run(
             [
-                "ffmpeg",
-                "-y",
+                "ffmpeg", "-y",
                 "-i", src_path,
                 "-vf", "scale=trunc(iw/2)*2:trunc(ih/2)*2,format=yuv420p",
                 "-c:v", "libx264",
@@ -661,11 +579,9 @@ def optimize_with_ffmpeg(src_path: str) -> str:
             stderr=subprocess.DEVNULL,
             check=True,
         )
-
         if ffprobe_ok(tmp_out) and os.path.getsize(tmp_out) > 1024:
             os.replace(tmp_out, src_path)
             return src_path
-
     except Exception:
         pass
 
@@ -674,7 +590,6 @@ def optimize_with_ffmpeg(src_path: str) -> str:
             os.remove(tmp_out)
         except Exception:
             pass
-
     return src_path
 
 
@@ -708,12 +623,10 @@ def scan_to_gallery(filepath: str) -> bool:
 
 def try_download_best_stream(info: dict, filepath: str):
     candidates = get_stream_candidates(info)
-
     if not candidates:
         raise RuntimeError("No downloadable stream found")
 
     last_error = None
-
     for label, url in candidates:
         try:
             download_stream(url, filepath)
@@ -811,7 +724,6 @@ def download_video(tiktok_url: str):
                 title="[bold bright_yellow]SUCCESS[/bold bright_yellow]",
             )
         )
-
     except Exception as e:
         console.print(
             Panel(
@@ -891,13 +803,10 @@ def tiktok_downloader_menu():
             url = Prompt.ask("[bold bright_cyan]Enter TikTok URL[/bold bright_cyan]").strip()
             if url:
                 download_video(url)
-
         elif choice == "2":
             multiple_download()
-
         elif choice == "0":
             return
-
         else:
             console.print(
                 Panel(
@@ -908,9 +817,6 @@ def tiktok_downloader_menu():
             time.sleep(1.1)
 
 
-# =========================================================
-# MAIN LOOP
-# =========================================================
 def main_dashboard():
     while True:
         draw_main_screen()
@@ -918,20 +824,15 @@ def main_dashboard():
 
         if choice == "1":
             system_scanner()
-
         elif choice == "2":
             developer_info()
-
         elif choice == "3":
-            update_app()
+            git_update()
             pause()
-
         elif choice == "4":
             tiktok_downloader_menu()
-
         elif choice == "5":
             funny_hack_mode()
-
         elif choice == "0":
             clear()
             console.print(
