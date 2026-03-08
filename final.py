@@ -30,7 +30,7 @@ console = Console()
 # MAIN APP CONFIG
 # =========================================================
 APP_NAME = "PRO TOOL"
-APP_VERSION = "1.0.1"
+APP_VERSION = "1.0.3"
 
 GITHUB_USER = "TOXICBILLU"
 GITHUB_REPO = "Tools"
@@ -45,7 +45,7 @@ LOCAL_FILE = os.path.abspath(__file__)
 # TIKTOK DOWNLOADER CONFIG
 # =========================================================
 TT_APP_NAME = "TIKTOK DOWNLOADER"
-TT_VERSION = "7.0 STABLE"
+TT_VERSION = "1.0 STABLE"
 DOWNLOAD_FOLDER = "/sdcard/Download"
 API_URL = "https://tikwm.com/api/"
 
@@ -204,7 +204,7 @@ def draw_main_screen():
     table.add_row("2", "👤 DEVELOPER INFO", "[blue]INFO[/blue]")
     table.add_row("3", "🔄 CHECK UPDATE", "[yellow]UPDATE[/yellow]")
     table.add_row("4", "🎬 TIKTOK DOWNLOADER", "[cyan]ACTIVE[/cyan]")
-    table.add_row("5", "😈 FUNNY HACK MODE", "[magenta]FUN[/magenta]")
+    table.add_row("5", "😈 DH HACK MODE", "[magenta]FUN[/magenta]")
     table.add_row("0", "❌ EXIT", "[red]OFF[/red]")
 
     console.print(get_banner())
@@ -250,7 +250,7 @@ def install_update(new_code):
 
 def check_for_updates(show_no_update=True):
     try:
-        loading_screen("Checking remote version", 0.01)
+        loading_screen("Checking remote version", 0.02)
         remote_version = fetch_remote_version()
 
         if remote_version == APP_VERSION:
@@ -325,7 +325,7 @@ def login_ui():
         pw = Prompt.ask("[bold white]🔑 PASS[/bold white]", password=True)
 
         if user == "admin" and pw == "123":
-            loading_screen("Authenticating")
+            loading_screen("Authenticating..")
             clear()
             console.print(get_banner())
             console.print("\n[bold reverse green]  ACCESS GRANTED  [/bold reverse green]")
@@ -340,7 +340,7 @@ def login_ui():
 # SCANNER / ABOUT
 # =========================================================
 def system_scanner():
-    loading_screen("Scanning local system")
+    loading_screen("Scanning local system..")
 
     user_data = get_user_info()
 
@@ -463,7 +463,7 @@ def tt_banner():
             Align.center(
                 "[bold bright_green]HD[/bold bright_green] • "
                 "[bold bright_cyan]Stable[/bold bright_cyan] • "
-                "[bold bright_magenta]No Auto Color Change[/bold bright_magenta] • "
+                "[bold bright_magenta]No Any Issues[/bold bright_magenta] • "
                 "[bold bright_yellow]Better Video Compatibility[/bold bright_yellow]"
             ),
             border_style=C_BORDER,
