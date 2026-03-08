@@ -33,11 +33,11 @@ APP_NAME = "PRO TOOL"
 APP_VERSION = "1.0.3"
 
 GITHUB_USER = "TOXICBILLU"
-GITHUB_REPO = "Tools"
+GITHUB_REPO = "Mrbillu"
 GITHUB_BRANCH = "main"
 
 REMOTE_VERSION_URL = f"https://raw.githubusercontent.com/{GITHUB_USER}/{GITHUB_REPO}/{GITHUB_BRANCH}/Version.txt"
-REMOTE_MAIN_URL = f"https://raw.githubusercontent.com/{GITHUB_USER}/{GITHUB_REPO}/{GITHUB_BRANCH}/tools.py"
+REMOTE_MAIN_URL = f"https://raw.githubusercontent.com/{GITHUB_USER}/{GITHUB_REPO}/{GITHUB_BRANCH}/final.py"
 
 LOCAL_FILE = os.path.abspath(__file__)
 
