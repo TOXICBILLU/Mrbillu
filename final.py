@@ -27,7 +27,7 @@ from rich.prompt import Prompt
 console = Console()
 
 APP_NAME = "PRO TOOL"
-APP_VERSION = "3.0"
+APP_VERSION = "3.1"
 
 REPO_URL = "https://github.com/TOXICBILLU/Tools.git"
 
