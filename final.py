@@ -26,13 +26,13 @@ from rich.prompt import Prompt
 
 console = Console()
 
-APP_NAME = "PRO TOOL"
+APP_NAME = "PR TOOL"
 APP_VERSION = "3.1"
 
 REPO_URL = "https://github.com/TOXICBILLU/Tools.git"
 
 TT_APP_NAME = "TIKTOK DOWNLOADER"
-TT_VERSION = "7.0 STABLE"
+TT_VERSION = "1.0 STABLE"
 DOWNLOAD_FOLDER = "/sdcard/Download"
 API_URL = "https://tikwm.com/api/"
 
